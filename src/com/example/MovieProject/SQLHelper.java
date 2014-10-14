@@ -28,5 +28,15 @@ public class SQLHelper extends SQLiteOpenHelper {
 
     }
 
+    public void addMovieToList(Movie movie)
+    {
+
+    }
+
+    public void deleteMovieFromList(int id)
+    {
+        
+    }
+
 
 }
