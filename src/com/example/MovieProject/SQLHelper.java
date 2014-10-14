@@ -35,7 +35,7 @@ public class SQLHelper extends SQLiteOpenHelper {
 
     public void deleteMovieFromList(int id)
     {
-        
+
     }
 
 
