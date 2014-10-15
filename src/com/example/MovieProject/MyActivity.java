@@ -16,6 +16,5 @@ public class MyActivity extends Activity {
         setContentView(R.layout.main);
 
         dbHelper = new SQLHelper(this);
-        dbHelper.getWritableDatabase();
     }
 }

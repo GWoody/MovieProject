@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:weightSum="1">
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_weight="0.3" android:weightSum="1">
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/imageView" android:layout_weight="0.8"/>
+        <RelativeLayout
+                android:orientation="vertical"
+                android:layout_width="213dp"
+                android:layout_height="fill_parent" android:layout_weight=".2">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Title:"
+                    android:id="@+id/title"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignRight="@+id/year"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Year:"
+                    android:id="@+id/year"
+                    android:layout_below="@+id/title"
+                    android:layout_alignParentLeft="true"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Rating:"
+                    android:id="@+id/rating"
+                    android:layout_below="@+id/year"
+                    android:layout_alignParentLeft="true"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Critic Score:"
+                    android:id="@+id/critic"
+                    android:layout_below="@+id/rating"
+                    android:layout_alignParentLeft="true"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Runtime:"
+                    android:id="@+id/runtime"
+                    android:layout_below="@+id/critic"
+                    android:layout_alignLeft="@+id/title"/>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
