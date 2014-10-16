@@ -8,15 +8,16 @@
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:layout_weight="0.3" android:weightSum="1">
+            android:layout_height="wrap_content" android:layout_weight="0" android:weightSum="0">
         <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:id="@+id/imageView" android:layout_weight="0.8"/>
+                android:layout_height="match_parent"
+                android:id="@+id/poster"
+                android:layout_weight=".9" android:layout_marginRight="5dp"/>
         <RelativeLayout
                 android:orientation="vertical"
                 android:layout_width="213dp"
-                android:layout_height="fill_parent" android:layout_weight=".2">
+                android:layout_height="fill_parent" android:layout_weight="0.2">
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -24,7 +25,7 @@
                     android:text="Title:"
                     android:id="@+id/title"
                     android:layout_alignParentTop="true"
-                    android:layout_alignRight="@+id/year"/>
+                    android:layout_alignRight="@+id/year" android:layout_marginBottom="25dp"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -32,7 +33,7 @@
                     android:text="Year:"
                     android:id="@+id/year"
                     android:layout_below="@+id/title"
-                    android:layout_alignParentLeft="true"/>
+                    android:layout_alignParentLeft="true" android:layout_marginBottom="10dp"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -40,7 +41,7 @@
                     android:text="Rating:"
                     android:id="@+id/rating"
                     android:layout_below="@+id/year"
-                    android:layout_alignParentLeft="true"/>
+                    android:layout_alignParentLeft="true" android:layout_marginBottom="10dp"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -48,7 +49,7 @@
                     android:text="Critic Score:"
                     android:id="@+id/critic"
                     android:layout_below="@+id/rating"
-                    android:layout_alignParentLeft="true"/>
+                    android:layout_alignParentLeft="true" android:layout_marginBottom="10dp"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -59,4 +60,32 @@
                     android:layout_alignLeft="@+id/title"/>
         </RelativeLayout>
     </LinearLayout>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_weight="0" android:layout_marginTop="40dp">
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Synopsis:"
+                android:id="@+id/textView" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+                android:layout_above="@+id/seen"/>
+        <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Seen"
+                android:id="@+id/seen"
+                android:layout_marginLeft="62dp" android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Watched"
+                android:id="@+id/watched"
+                android:layout_gravity="right"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="48dp"/>
+    </RelativeLayout>
 </LinearLayout>
