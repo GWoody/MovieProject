@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:weightSum="1">
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_weight="0" android:weightSum="0">
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/poster"
+                android:layout_weight=".9" android:layout_marginRight="5dp"/>
+        <RelativeLayout
+                android:orientation="vertical"
+                android:layout_width="213dp"
+                android:layout_height="fill_parent" android:layout_weight="0.2">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Title:"
+                    android:id="@+id/title"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignRight="@+id/year" android:layout_marginBottom="25dp"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Year:"
+                    android:id="@+id/year"
+                    android:layout_below="@+id/title"
+                    android:layout_alignParentLeft="true" android:layout_marginBottom="10dp"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Rating:"
+                    android:id="@+id/rating"
+                    android:layout_below="@+id/year"
+                    android:layout_alignParentLeft="true" android:layout_marginBottom="10dp"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Critic Score:"
+                    android:id="@+id/critic"
+                    android:layout_below="@+id/rating"
+                    android:layout_alignParentLeft="true" android:layout_marginBottom="10dp"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Runtime:"
+                    android:id="@+id/runtime"
+                    android:layout_below="@+id/critic"
+                    android:layout_alignLeft="@+id/title"/>
+        </RelativeLayout>
+    </LinearLayout>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_weight="0" android:layout_marginTop="40dp">
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Synopsis:"
+                android:id="@+id/textView" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+                android:layout_above="@+id/seen"/>
+        <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Seen"
+                android:id="@+id/seen"
+                android:layout_marginLeft="62dp" android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Watched"
+                android:id="@+id/watched"
+                android:layout_gravity="right"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="48dp"/>
+    </RelativeLayout>
+</LinearLayout>
