@@ -3,6 +3,7 @@ package com.example.MovieProject;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -15,7 +16,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class MyActivity extends Activity {
+public class MyActivity extends Activity  implements MovieListFragment.onListSelected{
 
     private enum CurrentFragment //Keep track of current Fragment displayed so Navigation Drawer won't double up on it
     {
@@ -26,6 +27,13 @@ public class MyActivity extends Activity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private CurrentFragment currentFragment;
+    private MovieProfile profileFragment;
+    private static int movieClickedPosition = 0;
+
+
+    public static int getMovieClickedPosition() {
+        return movieClickedPosition;
+    }
 
     /**
      * Called when the activity is first created.
@@ -63,6 +71,18 @@ public class MyActivity extends Activity {
                 selectItem(position);
             }
         });
+    }
+
+    public void onListElementSelected(int position) // if a list element is selected
+    {
+        movieClickedPosition = position;
+        FragmentTransaction newTran;
+        FragmentManager manager = getFragmentManager();
+        newTran = manager.beginTransaction();
+        profileFragment = new MovieProfile();
+        newTran.replace(R.id.content_frame,profileFragment); // launch into the timer activity
+        newTran.addToBackStack("Profile");
+        newTran.commit();
     }
 
     @Override

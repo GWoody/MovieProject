@@ -68,7 +68,7 @@
                 android:layout_height="fill_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Synopsis:"
-                android:id="@+id/textView" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+                android:id="@+id/synopsis" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
                 android:layout_above="@+id/seen"/>
         <Button
                 style="?android:attr/buttonStyleSmall"

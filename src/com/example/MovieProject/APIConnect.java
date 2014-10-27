@@ -18,10 +18,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * Created by Gareth on 27/10/2014.
+ * Created by Anthony on 27/10/2014.
  */
 public class APIConnect extends AsyncTask<String, Void, String> {
     private ArrayList<Movie> Movies = new ArrayList<Movie>();
@@ -68,21 +69,32 @@ public class APIConnect extends AsyncTask<String, Void, String> {
             for(int i = 0; i < movies.length(); i++){
                 JSONObject movie = movies.getJSONObject(i);
                 String Title = movie.getString("title");
+                String runTime = movie.getString("runtime");
+                String synopsis = movie.getString("synopsis");
+                String rating = movie.getString("mpaa_rating");
+                JSONObject ratings = movie.getJSONObject("ratings");
+                String criticRating = ratings.getString("critics_score");
                 JSONObject posters = movie.getJSONObject("posters");
                 String Thumbnail = posters.getString("thumbnail");
+                String profilePoster = posters.getString("detailed");
+                String[] temp = profilePoster.split("_");
+                String newProfilePoster = temp[0] + "_det.jpg";
                 int Year = movie.getInt("year");
                 Log.d("%s", "Result: Title:" + Title + " Year: " + Year);
 
                 Bitmap mIcon11 = null;
+                Bitmap mIcon2 = null;
                 try {
                     InputStream in = new java.net.URL(Thumbnail).openStream();
                     mIcon11 = BitmapFactory.decodeStream(in);
+                    InputStream in2 = new URL(newProfilePoster).openStream();
+                    mIcon2 = BitmapFactory.decodeStream(in2);
                 } catch (Exception e) {
                     Log.e("Error", e.getMessage());
                     e.printStackTrace();
                 }
 
-                Movie amovie = new Movie(Title,String.valueOf(Year), Thumbnail,"","","",mIcon11,null);
+                Movie amovie = new Movie(Title,String.valueOf(Year),rating,criticRating,runTime,synopsis,mIcon11,mIcon2);
 
                 MovieListFragment.AddAMovie(amovie);            }
 
