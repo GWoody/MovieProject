@@ -25,23 +25,18 @@ public class MovieProfile extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.movieprofile, container, false);
-    }
+        View v = inflater.inflate(R.layout.movieprofile, container, false);
 
-    @Override
-    public void onStart()
-    {
-        super.onStart();
+        title = (TextView)v.findViewById(R.id.title);
+        year = (TextView)v.findViewById(R.id.year);
+        poster = (ImageView)v.findViewById(R.id.poster);
+        rating = (TextView)v.findViewById(R.id.rating);
+        criticScore = (TextView)v.findViewById(R.id.critic);
+        runTime = (TextView)v.findViewById(R.id.runtime);
+        synopsis = (TextView)v.findViewById(R.id.synopsis);
 
-        movie = HomeFragment.getMovie(MyActivity.getMovieClickedPosition());
-
-        title = (TextView) getActivity().findViewById(R.id.title);
-        year = (TextView) getActivity().findViewById(R.id.year);
-        poster = (ImageView) getActivity().findViewById(R.id.poster);
-        rating = (TextView) getActivity().findViewById(R.id.rating);
-        criticScore = (TextView) getActivity().findViewById(R.id.critic);
-        runTime = (TextView) getActivity().findViewById(R.id.runtime);
-        synopsis = (TextView) getActivity().findViewById(R.id.synopsis);
+        Bundle bundle = this.getArguments();
+        movie = (Movie)bundle.getParcelable("movie");
 
         title.setText(movie.getTitle());
         year.setText(movie.getYear());
@@ -51,8 +46,6 @@ public class MovieProfile extends Fragment {
         runTime.setText(movie.getRunTime());
         synopsis.setText(movie.getSynopsis());
 
-
-
-
+        return v;
     }
 }

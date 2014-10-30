@@ -33,19 +33,17 @@ public class MovieListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.movielist, container, false);
 
-
         MovieList = (ListView) v.findViewById(R.id.movieListYear);
 
         adapter = new MoviesAdapter(getActivity(), Movies);
         MovieList.setAdapter(adapter);
-
 
         MovieList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Movie movie = Movies.get(position);
-                callback.onListElementSelected(position);
+                callback.onListElementSelected(movie);
 
             }
         });
@@ -67,10 +65,8 @@ public class MovieListFragment extends Fragment {
         }
     }
 
-    public interface  onListSelected
+    public interface onListSelected
     {
-        public void onListElementSelected(int position);
+        public void onListElementSelected(Movie movie);
     }
-
-
 }

@@ -16,7 +16,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class MyActivity extends Activity  implements MovieListFragment.onListSelected{
+public class MyActivity extends Activity implements MovieListFragment.onListSelected {
 
     private enum CurrentFragment //Keep track of current Fragment displayed so Navigation Drawer won't double up on it
     {
@@ -28,12 +28,6 @@ public class MyActivity extends Activity  implements MovieListFragment.onListSel
     private ListView mDrawerList;
     private CurrentFragment currentFragment;
     private MovieProfile profileFragment;
-    private static int movieClickedPosition = 0;
-
-
-    public static int getMovieClickedPosition() {
-        return movieClickedPosition;
-    }
 
     /**
      * Called when the activity is first created.
@@ -73,14 +67,24 @@ public class MyActivity extends Activity  implements MovieListFragment.onListSel
         });
     }
 
-    public void onListElementSelected(int position) // if a list element is selected
+    public void onListElementSelected(Movie movie) // if a list element is selected
     {
-        movieClickedPosition = position;
+        viewMovie(movie);
+    }
+
+    public void viewMovie(Movie movie) {
         FragmentTransaction newTran;
         FragmentManager manager = getFragmentManager();
         newTran = manager.beginTransaction();
         profileFragment = new MovieProfile();
-        newTran.replace(R.id.content_frame,profileFragment); // launch into the timer activity
+
+        Bundle bundle = new Bundle();
+
+        bundle.putParcelable("movie", movie);
+
+        profileFragment.setArguments(bundle);
+
+        newTran.replace(R.id.content_frame, profileFragment); // launch into the timer activity
         newTran.addToBackStack("Profile");
         newTran.commit();
     }
@@ -143,6 +147,20 @@ public class MyActivity extends Activity  implements MovieListFragment.onListSel
         }
 
         mDrawerLayout.closeDrawer(mDrawerList);
+    }
+
+    //URL is query to be performed in new Fragment
+    public void showSearchResults(String url) {
+        Fragment searchFragment = new MovieResultsFragment();
+
+        Bundle bundle = new Bundle();
+
+        bundle.putString("url", url);
+
+        searchFragment.setArguments(bundle);
+
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, searchFragment).addToBackStack(null).commit();
     }
 }
 

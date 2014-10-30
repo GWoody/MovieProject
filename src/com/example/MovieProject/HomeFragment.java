@@ -24,10 +24,6 @@ public class HomeFragment extends Fragment {
     boolean ifRun = false;
     MovieListFragment.onListSelected callback;
 
-    public static Movie getMovie(int position) {
-        return movieList.get(position);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.newmovies, container, false);
@@ -39,7 +35,6 @@ public class HomeFragment extends Fragment {
         adapter = new movieImageAdapter(getActivity(),movieList);
         gridView.setAdapter(adapter);
 
-
         if(!ifRun)
         {
             new APIConnect().execute(url);
@@ -50,7 +45,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Movie movie = movieList.get(position);
-                callback.onListElementSelected(position);
+                callback.onListElementSelected(movie);
             }
         });
 
