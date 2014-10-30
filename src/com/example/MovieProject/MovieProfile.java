@@ -33,7 +33,7 @@ public class MovieProfile extends Fragment {
     {
         super.onStart();
 
-        movie = MovieListFragment.getMovie(MyActivity.getMovieClickedPosition());
+        movie = HomeFragment.getMovie(MyActivity.getMovieClickedPosition());
 
         title = (TextView) getActivity().findViewById(R.id.title);
         year = (TextView) getActivity().findViewById(R.id.year);

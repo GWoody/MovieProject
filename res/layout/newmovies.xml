@@ -13,7 +13,16 @@
             android:textAppearance="@android:style/TextAppearance.Large"
             android:layout_gravity="center_horizontal"
             />
-    <GridView android:layout_width="match_parent" android:layout_height="match_parent"
-              android:id="@+id/popularMovieGrid" android:numColumns="2">
+    <GridView android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/popularMovieGrid"
+              android:numColumns="2"
+              android:layout_margin="5dp"
+              android:columnWidth="100dp"
+              android:gravity="center"
+              android:verticalSpacing="5dp"
+              android:drawSelectorOnTop="true"
+              android:stretchMode="columnWidth"
+            >
     </GridView>
 </LinearLayout>

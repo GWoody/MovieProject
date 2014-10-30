@@ -13,19 +13,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/poster"
-                android:layout_weight=".9" android:layout_marginRight="5dp"/>
+                android:layout_weight=".9"
+                android:layout_marginRight="2dp"/>
         <RelativeLayout
                 android:orientation="vertical"
                 android:layout_width="213dp"
-                android:layout_height="fill_parent" android:layout_weight="0.2">
+                android:layout_height="fill_parent" android:layout_weight="0.5">
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Title:"
                     android:id="@+id/title"
+                    android:scrollHorizontally="true"
                     android:layout_alignParentTop="true"
-                    android:layout_alignRight="@+id/year" android:layout_marginBottom="25dp"/>
+                    android:layout_alignRight="@+id/year"
+                    android:layout_marginBottom="25dp"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -33,7 +36,9 @@
                     android:text="Year:"
                     android:id="@+id/year"
                     android:layout_below="@+id/title"
-                    android:layout_alignParentLeft="true" android:layout_marginBottom="10dp"/>
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginBottom="10dp"
+                    android:singleLine="true"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -41,7 +46,9 @@
                     android:text="Rating:"
                     android:id="@+id/rating"
                     android:layout_below="@+id/year"
-                    android:layout_alignParentLeft="true" android:layout_marginBottom="10dp"/>
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginBottom="10dp"
+                    android:singleLine="true"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -49,7 +56,9 @@
                     android:text="Critic Score:"
                     android:id="@+id/critic"
                     android:layout_below="@+id/rating"
-                    android:layout_alignParentLeft="true" android:layout_marginBottom="10dp"/>
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginBottom="10dp"
+                    android:singleLine="true"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -57,6 +66,7 @@
                     android:text="Runtime:"
                     android:id="@+id/runtime"
                     android:layout_below="@+id/critic"
+                    android:singleLine="true"
                     android:layout_alignLeft="@+id/title"/>
         </RelativeLayout>
     </LinearLayout>

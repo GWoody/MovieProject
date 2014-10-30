@@ -96,7 +96,7 @@ public class APIConnect extends AsyncTask<String, Void, String> {
 
                 Movie amovie = new Movie(Title,String.valueOf(Year),rating,criticRating,runTime,synopsis,mIcon11,mIcon2);
 
-                MovieListFragment.AddAMovie(amovie);            }
+                HomeFragment.AddAMovie(amovie);            }
 
         } catch (JSONException e) {
             e.printStackTrace();
