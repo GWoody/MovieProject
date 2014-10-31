@@ -25,10 +25,6 @@ public class MovieListFragment extends Fragment {
     boolean ifRun = false;
     onListSelected callback;
 
-    public static Movie getMovie(int position) {
-        return Movies.get(position);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.movielist, container, false);

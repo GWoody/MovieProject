@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+<LinearLayout android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:weightSum="1">
+<LinearLayout android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:weightSum="1">
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Loading"
-            android:gravity="center"
-            android:id="@+id/resultsNumber" android:layout_gravity="center_horizontal"/>
-    <android.support.v4.view.ViewPager android:layout_width="match_parent" android:layout_height="wrap_content"
-                                       android:id="@+id/moviePicture"
-                                       android:layout_weight="1"/>
+        android:layout_weight="1">
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="61dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Loading"
-            android:gravity="center"
-            android:id="@+id/title" android:layout_gravity="center_horizontal"/>
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/resultsNumber"/>
+    <android.support.v4.view.ViewPager android:layout_width="match_parent" android:layout_height="wrap_content"
+                                       android:id="@+id/moviePicture"
+            android:layout_weight="1"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="61dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Loading"
+            android:gravity="center_vertical"
+            android:id="@+id/title" android:layout_gravity="center_vertical"/>
+</LinearLayout>
     <Button
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
@@ -30,5 +34,4 @@
             android:id="@+id/viewButton" android:layout_gravity="center_horizontal"
             android:paddingBottom="5dp"
             android:enabled="false"/>
-
 </LinearLayout>

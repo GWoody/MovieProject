@@ -16,7 +16,7 @@
         <EditText
                 android:layout_width="150dp"
                 android:layout_height="match_parent"
-                android:id="@+id/searchTitleText" android:hint="Title"
+                android:id="@+id/searchTitleText" android:hint="Title (Required)"
                 android:layout_weight="0.5"/>
     </LinearLayout>
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -31,7 +31,8 @@
                 android:id="@+id/searchYearText" android:hint="Year"
                 android:inputType="number"
                 android:ems="10"
-                android:layout_weight="0.5"/>
+                android:layout_weight="0.5"
+                android:enabled="false"/>
     </LinearLayout>
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                   android:orientation="horizontal" android:gravity="center"
@@ -42,9 +43,10 @@
         <EditText
                 android:layout_width="150dp"
                 android:layout_height="match_parent"
-                android:id="@+id/searchScoreText" android:hint="Score"
+                android:id="@+id/searchScoreText" android:hint="Score Of At Least"
                 android:inputType="number"
                 android:ems="10"
+                android:enabled="false"
                 android:layout_weight="0.5"/>
     </LinearLayout>
     <Button
@@ -52,5 +54,6 @@
             android:layout_height="wrap_content"
             android:text="Search"
             android:layout_marginTop="40dp"
+            android:enabled="false"
             android:id="@+id/searchbutton" android:layout_gravity="center_horizontal"/>
 </LinearLayout>
