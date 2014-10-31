@@ -3,6 +3,7 @@ package com.example.MovieProject;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,14 +50,16 @@ public class MovieProfile extends Fragment {
         title.setText(movie.getTitle());
         year.setText(movie.getYear());
         poster.setImageBitmap(movie.getImage());
-        rating.setText(movie.getRating());
-        criticScore.setText(movie.getCriticScore());
-        runTime.setText(movie.getRunTime());
+        rating.setText("Rating: " + movie.getRating());
+        criticScore.setText("Critic Score: " + movie.getCriticScore());
+        runTime.setText("Minutes: " + movie.getRunTime());
         synopsis.setText(movie.getSynopsis());
+
+        synopsis.setMovementMethod(new ScrollingMovementMethod());
 
         if(MyActivity.helper.checkRecordExistsToWatch(movie.getTitle(),movie.getYear()))
         {
-            toWatch.setText("Delete from Watched");
+            toWatch.setText("Delete from Wanted");
         }
 
         if(MyActivity.helper.checkRecordExistsWatched(movie.getTitle(),movie.getYear()))
@@ -70,14 +73,14 @@ public class MovieProfile extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if(toWatch.getText().equals("Watched"))
+                if(toWatch.getText().equals("Wanted"))
                 {
                     whichList = true;
                     MyActivity.helper.addMovieToList(movie,whichList);
                 }
 
 
-                if(toWatch.getText().equals("Delete from Watched"))
+                if(toWatch.getText().equals("Delete from Wanted"))
                 {
                     Boolean result = MyActivity.helper.deleteRecordFromListToWatch(movie.getTitle());
                     if(result)
@@ -85,14 +88,14 @@ public class MovieProfile extends Fragment {
                         Context context = getActivity().getApplicationContext();
                         int duration = Toast.LENGTH_SHORT;
 
-                        Toast.makeText(context,"Successful deletion from Watched", duration).show();
+                        Toast.makeText(context,"Successful deletion from Wanted", duration).show();
 
-                        toWatch.setText("Watched");
+                        toWatch.setText("Wanted");
                     }
                 }
                 if(MyActivity.helper.checkRecordExistsToWatch(movie.getTitle(),movie.getYear()))
                 {
-                    toWatch.setText("Delete from Watched");
+                    toWatch.setText("Delete from Wanted");
                 }
 
             }
@@ -121,7 +124,7 @@ public class MovieProfile extends Fragment {
 
                     }
                 }
-                if(MyActivity.helper.checkRecordExistsWatched(movie.getTitle(),movie.getYear()))
+                if(MyActivity.helper.checkRecordExistsWatched(movie.getTitle(), movie.getYear()))
                 {
                     Seen.setText("Delete from Seen");
                 }

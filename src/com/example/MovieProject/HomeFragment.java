@@ -51,7 +51,7 @@ public class HomeFragment extends Fragment {
         adapter = new movieImageAdapter(getActivity(),movieList);
         gridView.setAdapter(adapter);
 
-        if(movieList.size() >= 10)
+        if(movieList.size() < 10)
         {
             apiConnect = new APIConnect();
             apiConnect.execute(url);
@@ -71,7 +71,9 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        apiConnect.cancel(false);
+        if (apiConnect != null) {
+            apiConnect.cancel(false);
+        }
     }
 
     @Override

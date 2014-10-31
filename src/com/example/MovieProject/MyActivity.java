@@ -115,7 +115,11 @@ public class MyActivity extends Activity implements MovieListFragment.onListSele
                 selectItem(position);
             }
         });
+
+        mDrawerLayout.setFocusableInTouchMode(false);
     }
+
+
 /*
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -137,7 +141,12 @@ public class MyActivity extends Activity implements MovieListFragment.onListSele
                 outState.putString("CurrentFragment", "Home");
         }
     }
+
+
 */
+
+
+
     public void onListElementSelected(Movie movie) // if a list element is selected
     {
         viewMovie(movie);
@@ -155,7 +164,7 @@ public class MyActivity extends Activity implements MovieListFragment.onListSele
 
         profileFragment.setArguments(bundle);
 
-        newTran.replace(R.id.content_frame, profileFragment); // launch into the timer activity
+        newTran.replace(R.id.content_frame, profileFragment);
         newTran.addToBackStack("Profile");
         newTran.commit();
     }
@@ -168,9 +177,11 @@ public class MyActivity extends Activity implements MovieListFragment.onListSele
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -193,7 +204,7 @@ public class MyActivity extends Activity implements MovieListFragment.onListSele
                 if (currentFragment != CurrentFragment.Home) {
                     Fragment fragment = new HomeFragment();
                     FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack("Home").commit();
                     currentFragment = CurrentFragment.Home;
                 }
                 break;
@@ -201,8 +212,9 @@ public class MyActivity extends Activity implements MovieListFragment.onListSele
                 if (currentFragment != CurrentFragment.Search) { //If not already on Search
                     Fragment fragment = new SearchFragment();
                     FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack("Search").commit();
                     currentFragment = CurrentFragment.Search;
+
                 }
                 break;
             case 2: //Case 2 is WatchList
@@ -213,7 +225,7 @@ public class MyActivity extends Activity implements MovieListFragment.onListSele
                     bundle.putBoolean("whichList",value);
                     fragment.setArguments(bundle);
                     FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack("Watch").commit();
                     currentFragment = CurrentFragment.WatchList;
                 }
                 break;
@@ -225,7 +237,7 @@ public class MyActivity extends Activity implements MovieListFragment.onListSele
                     bundle.putBoolean("whichList",value);
                     fragment.setArguments(bundle);
                     FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack("Seen").commit();
                     currentFragment = CurrentFragment.Watched;
                 }
                 break;

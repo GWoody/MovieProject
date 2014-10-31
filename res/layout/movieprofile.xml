@@ -18,17 +18,17 @@
         <RelativeLayout
                 android:orientation="vertical"
                 android:layout_width="213dp"
-                android:layout_height="fill_parent" android:layout_weight="0.5">
+                android:layout_height="fill_parent"
+                android:layout_weight="0.5">
             <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Title:"
                     android:id="@+id/title"
                     android:scrollHorizontally="true"
                     android:layout_alignParentTop="true"
-                    android:layout_alignRight="@+id/year"
-                    android:layout_marginBottom="25dp"/>
+                    android:autoText="true" android:layout_alignParentRight="true"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -77,6 +77,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
+                android:maxLines="40"
+                android:scrollbars="vertical"
                 android:text="Synopsis:"
                 android:id="@+id/synopsis" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
                 android:layout_above="@+id/seen"/>
@@ -92,7 +94,7 @@
         <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Watched"
+                android:text="Wanted"
                 android:id="@+id/watched"
                 android:layout_gravity="right"
                 android:layout_alignParentBottom="true"
