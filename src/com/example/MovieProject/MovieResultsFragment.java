@@ -1,5 +1,6 @@
 package com.example.MovieProject;
 
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -51,6 +52,8 @@ public class MovieResultsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.movieresults, container, false);
+
+        getActivity().getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 
         searchResults = new ArrayList<Movie>();
 

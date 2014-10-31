@@ -1,5 +1,6 @@
 package com.example.MovieProject;
 
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ public class MovieProfile extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.movieprofile, container, false);
 
+        getActivity().getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         title = (TextView)v.findViewById(R.id.title);
         year = (TextView)v.findViewById(R.id.year);
         poster = (ImageView)v.findViewById(R.id.poster);

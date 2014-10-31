@@ -1,17 +1,11 @@
 package com.example.MovieProject;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.Fragment;
+import android.app.*;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TabHost;
 
 import java.util.ArrayList;
 
@@ -19,11 +13,10 @@ import java.util.ArrayList;
  * Created by Aleksander on 18/10/2014.
  */
 public class MovieListFragment extends Fragment {
-    private static ArrayList<Movie> Movies = new ArrayList<Movie>();
+    private static ArrayList<Movie> movies = new ArrayList<Movie>();
     private static MoviesAdapter adapter;
-    private ListView MovieList;
+    private ListView movieList;
     onListSelected callback;
-    boolean isCreated = false;
     boolean whichList;
 
 
@@ -31,46 +24,18 @@ public class MovieListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.movielist, container, false);
 
-        TabHost tabs = (TabHost)v.findViewById(R.id.tabHost);
-        tabs.setup();
+        getActivity().getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        Bundle bundle = this.getArguments();
 
-        // Calculator
-        TabHost.TabSpec yearList = tabs.newTabSpec("Year");
-        //yearList.setContent(R.id.calculator);
-        yearList.setIndicator("Year");
-        tabs.addTab(yearList);
+        whichList = bundle.getBoolean("whichList");
 
-        // Home
-        //tabs.addTab(tabs.newTabSpec("Alphabetical").setIndicator("Alphabetical"),AlphabeticalFragment.class, null);
+        movieList = (ListView)v.findViewById(R.id.movieList);
 
+        movies = MyActivity.helper.getAllMoviesinList(whichList); //false is seen, true is toWatch
 
-        if(!isCreated)
-        {
-            MovieList = (ListView) v.findViewById(R.id.movieListYear);
+        adapter = new MoviesAdapter(getActivity(), movies);
 
-            Bundle bundle = this.getArguments();
-           whichList =  bundle.getBoolean("whichList");
-            Movies = MyActivity.helper.getAllMoviesinList(whichList);
-
-            adapter = new MoviesAdapter(getActivity(), Movies);
-            MovieList.setAdapter(adapter);
-        }
-        else
-        {
-            adapter.notifyDataSetChanged(); // update set
-        }
-
-
-
-        MovieList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Movie movie = Movies.get(position);
-                callback.onListElementSelected(movie);
-
-            }
-        });
+        movieList.setAdapter(adapter);
 
         return v;
     }
@@ -93,4 +58,5 @@ public class MovieListFragment extends Fragment {
     {
         public void onListElementSelected(Movie movie);
     }
+
 }
