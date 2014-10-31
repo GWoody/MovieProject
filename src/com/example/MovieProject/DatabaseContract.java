@@ -4,6 +4,8 @@ import android.provider.BaseColumns;
 
 /**
  * Created by Gareth on 14/10/2014.
+ *
+ * Database Contract for the movie lists
  */
 public class DatabaseContract {
 

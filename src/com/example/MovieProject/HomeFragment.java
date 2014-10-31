@@ -48,13 +48,13 @@ public class HomeFragment extends Fragment {
         getActivity().getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 
         String APIkey = "8h6mbnfwjb2qux8et6k8uq9a";
-        String url = "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=" + APIkey;
+        String url = "http://api.rottentomatoes.com/api/public/v1.0/lists/movies/box_office.json?apikey=" + APIkey; // api information
 
         GridView gridView = (GridView) v.findViewById(R.id.popularMovieGrid);
         adapter = new movieImageAdapter(getActivity(),movieList);
         gridView.setAdapter(adapter);
 
-        if(movieList.size() < 10)
+        if(movieList.size() < 10) // only collect top ten
         {
             apiConnect = new APIConnect();
             apiConnect.execute(url);
@@ -102,7 +102,7 @@ public class HomeFragment extends Fragment {
             HttpGet httpget = new HttpGet(params[0]);
             try {
                 // Execute HTTP Post Request
-                HttpResponse response = httpclient.execute(httpget);
+                HttpResponse response = httpclient.execute(httpget); // get Requests
                 HttpEntity httpEntity = response.getEntity();
                 InputStream inputStream = httpEntity.getContent();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"), 8);
@@ -131,7 +131,7 @@ public class HomeFragment extends Fragment {
             try {
                 JSONObject total = new JSONObject(result);
                 JSONArray movies = total.getJSONArray("movies");
-                for(int i = 0; i < movies.length(); i++){
+                for(int i = 0; i < movies.length(); i++){ // collect the JSON data
                     JSONObject movie = movies.getJSONObject(i);
                     String Title = movie.getString("title");
                     String runTime = movie.getString("runtime");
@@ -150,7 +150,7 @@ public class HomeFragment extends Fragment {
                     Bitmap mIcon11 = null;
                     Bitmap mIcon2 = null;
                     try {
-                        InputStream in = new java.net.URL(Thumbnail).openStream();
+                        InputStream in = new java.net.URL(Thumbnail).openStream(); // collect the bitmaps
                         mIcon11 = BitmapFactory.decodeStream(in);
                         InputStream in2 = new URL(newProfilePoster).openStream();
                         mIcon2 = BitmapFactory.decodeStream(in2);

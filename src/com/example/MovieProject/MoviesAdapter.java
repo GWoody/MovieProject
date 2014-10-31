@@ -28,13 +28,13 @@ public class MoviesAdapter extends ArrayAdapter<Movie> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.moviecell, parent, false);
         }
         // Lookup view for data population
-        TextView IDTitle = (TextView) convertView.findViewById(R.id.IDTitleText);
-        TextView IDYear = (TextView) convertView.findViewById(R.id.IDYearText);
+        TextView IDTitle = (TextView) convertView.findViewById(R.id.IDTitleView);
+        TextView IDYear = (TextView) convertView.findViewById(R.id.IDYearView);
         ImageView IDThumbnail = (ImageView) convertView.findViewById(R.id.IDImage);
 
         // Populate the data into the template view using the data object
-        IDTitle.setText(amovie.getTitle());
-        IDYear.setText(String.valueOf(amovie.getYear()));
+        IDTitle.setText("Title:" + amovie.getTitle());
+        IDYear.setText("Year:" + String.valueOf(amovie.getYear()));
         IDThumbnail.setImageBitmap(amovie.getThumbnail());
         // Return the completed view to render on screen
         return convertView;
