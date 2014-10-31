@@ -1,5 +1,6 @@
 package com.example.MovieProject;
 
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.text.Editable;
@@ -29,6 +30,7 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.searchscreen, container, false);
 
+        getActivity().getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         searchTitleText = (EditText)v.findViewById(R.id.searchTitleText);
         searchScoreText = (EditText)v.findViewById(R.id.searchScoreText);
         searchYearText = (EditText)v.findViewById(R.id.searchYearText);

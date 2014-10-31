@@ -1,16 +1,12 @@
 package com.example.MovieProject;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.res.Configuration;
+import android.app.*;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 
 public class MyActivity extends Activity implements MovieListFragment.onListSelected {
 
@@ -115,11 +110,7 @@ public class MyActivity extends Activity implements MovieListFragment.onListSele
                 selectItem(position);
             }
         });
-
-        mDrawerLayout.setFocusableInTouchMode(false);
     }
-
-
 /*
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -141,12 +132,7 @@ public class MyActivity extends Activity implements MovieListFragment.onListSele
                 outState.putString("CurrentFragment", "Home");
         }
     }
-
-
 */
-
-
-
     public void onListElementSelected(Movie movie) // if a list element is selected
     {
         viewMovie(movie);
@@ -164,7 +150,7 @@ public class MyActivity extends Activity implements MovieListFragment.onListSele
 
         profileFragment.setArguments(bundle);
 
-        newTran.replace(R.id.content_frame, profileFragment);
+        newTran.replace(R.id.content_frame, profileFragment); // launch into the timer activity
         newTran.addToBackStack("Profile");
         newTran.commit();
     }
@@ -177,11 +163,9 @@ public class MyActivity extends Activity implements MovieListFragment.onListSele
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-
 
         return super.onOptionsItemSelected(item);
     }
@@ -204,7 +188,7 @@ public class MyActivity extends Activity implements MovieListFragment.onListSele
                 if (currentFragment != CurrentFragment.Home) {
                     Fragment fragment = new HomeFragment();
                     FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack("Home").commit();
+                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
                     currentFragment = CurrentFragment.Home;
                 }
                 break;
@@ -212,38 +196,83 @@ public class MyActivity extends Activity implements MovieListFragment.onListSele
                 if (currentFragment != CurrentFragment.Search) { //If not already on Search
                     Fragment fragment = new SearchFragment();
                     FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack("Search").commit();
+                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
                     currentFragment = CurrentFragment.Search;
-
                 }
                 break;
             case 2: //Case 2 is WatchList
                 if (currentFragment != CurrentFragment.WatchList) {
-                    Fragment fragment = new MovieListFragment();
-                    Bundle bundle = new Bundle();
-                    boolean value = true;
-                    bundle.putBoolean("whichList",value);
-                    fragment.setArguments(bundle);
-                    FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack("Watch").commit();
-                    currentFragment = CurrentFragment.WatchList;
+                    setupActionBar(true);
                 }
                 break;
             case 3: //Case 3 is Watched
                 if (currentFragment != CurrentFragment.Watched) {
-                    Fragment fragment = new MovieListFragment();
-                    Bundle bundle = new Bundle();
-                    boolean value = false;
-                    bundle.putBoolean("whichList",value);
-                    fragment.setArguments(bundle);
-                    FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack("Seen").commit();
-                    currentFragment = CurrentFragment.Watched;
+                    setupActionBar(false);
                 }
                 break;
         }
 
         mDrawerLayout.closeDrawer(mDrawerList);
+    }
+
+    public void setupActionBar(final boolean sortBy) {
+        ActionBar actionBar = getActionBar();
+        getActionBar().removeAllTabs();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        ActionBar.Tab tab = actionBar.newTab();
+        tab.setText("Alphabetical");
+        tab.setTabListener(new ActionBar.TabListener() {
+            @Override
+            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+                Fragment fragment = new MovieListFragment();
+                Bundle bundle = new Bundle();
+                boolean value = false;
+                bundle.putBoolean("whichList", sortBy);
+                fragment.setArguments(bundle);
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+                currentFragment = CurrentFragment.WatchList;
+            }
+
+            @Override
+            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+
+            }
+
+            @Override
+            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+
+            }
+        });
+        actionBar.addTab(tab);
+
+        tab = actionBar.newTab();
+        tab.setText("Year");
+        tab.setTabListener(new ActionBar.TabListener() {
+            @Override
+            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+                Fragment fragment = new MovieListFragment();
+                Bundle bundle = new Bundle();
+                boolean value = true;
+                bundle.putBoolean("whichList", sortBy);
+                fragment.setArguments(bundle);
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+                currentFragment = CurrentFragment.Watched;
+            }
+
+            @Override
+            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+
+            }
+
+            @Override
+            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+
+            }
+        });
+        actionBar.addTab(tab);
     }
 
     //URL is query to be performed in new Fragment
