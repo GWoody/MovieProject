@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -40,14 +41,56 @@ public class MyActivity extends Activity implements MovieListFragment.onListSele
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        currentFragment = CurrentFragment.Home;
-        setContentView(R.layout.main);
+        Fragment fragment;
+        String tag;
 
-        Fragment fragment = new HomeFragment();
+        if (savedInstanceState != null) {
+            if (getFragmentManager().findFragmentByTag("SearchResultsFragment") != null) {
+                fragment = getFragmentManager().findFragmentByTag("SearchResultsFragment");
+                tag = "SearchResultsFragment";
+            }
+            /*
+            String previousFragment = savedInstanceState.getString("CurrentFragment");
+
+            if (previousFragment.equals("Watched")) {
+                fragment = new MovieListFragment();
+                currentFragment = CurrentFragment.Watched;
+            }
+
+            else if (previousFragment.equals("Search")) {
+                if (savedInstanceState.getParcelableArrayList("searchResults") != null) {
+                    fragment = new MovieResultsFragment();
+                }
+                else {
+                    fragment = new SearchFragment();
+                }
+                currentFragment = CurrentFragment.Search;
+            }
+
+            else if (previousFragment.equals("Watched")) {
+                fragment = new MovieListFragment();
+                currentFragment = CurrentFragment.Watched;
+            }
+            */
+            else {
+                fragment = new HomeFragment();
+                currentFragment = CurrentFragment.Home;
+                tag = "HomeFragment";
+            }
+
+        }
+
+        else {
+            fragment = new HomeFragment();
+            currentFragment = CurrentFragment.Home;
+            tag = "HomeFragment";
+        }
+
+        setContentView(R.layout.main);
 
         FragmentManager fragmentManager = getFragmentManager();
 
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, tag).commit();
 
         String[] mDrawerTitles = {"Home", "Search Movies", "Watch List", "Watched"};
 
@@ -73,7 +116,28 @@ public class MyActivity extends Activity implements MovieListFragment.onListSele
             }
         });
     }
-
+/*
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        switch (currentFragment) {
+            case Home:
+                outState.putString("CurrentFragment", "Home");
+                break;
+            case Search:
+                outState.putString("CurrentFragment", "Search");
+                break;
+            case WatchList:
+                outState.putString("CurrentFragment", "WatchList");
+                break;
+            case Watched:
+                outState.putString("CurrentFragment", "Watched");
+                break;
+            default:
+                outState.putString("CurrentFragment", "Home");
+        }
+    }
+*/
     public void onListElementSelected(Movie movie) // if a list element is selected
     {
         viewMovie(movie);
@@ -100,12 +164,6 @@ public class MyActivity extends Activity implements MovieListFragment.onListSele
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         mDrawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
@@ -177,17 +235,19 @@ public class MyActivity extends Activity implements MovieListFragment.onListSele
     }
 
     //URL is query to be performed in new Fragment
-    public void showSearchResults(String url) {
+    public void showSearchResults(String url, int year, int score) {
         Fragment searchFragment = new MovieResultsFragment();
 
         Bundle bundle = new Bundle();
 
         bundle.putString("url", url);
+        bundle.putInt("year", year);
+        bundle.putInt("score", score);
 
         searchFragment.setArguments(bundle);
 
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, searchFragment).addToBackStack(null).commit();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, searchFragment, "SearchResultsFragment").addToBackStack(null).commit();
     }
 }
 

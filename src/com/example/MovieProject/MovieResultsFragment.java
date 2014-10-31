@@ -1,10 +1,13 @@
 package com.example.MovieProject;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,69 +38,87 @@ import java.util.ArrayList;
 public class MovieResultsFragment extends Fragment {
 
     private ArrayList<Movie> searchResults;
-    int currentlyDisplayedResult;
-    ImageView imageView;
+    private ScrollableImageView scrollableImageView;
+    int numberOfResults;
+    int year;
+    int score;
     TextView title;
-    Button nextButton;
-    Button previousButton;
+    TextView resultsNumber;
     Button viewButton;
+    ViewPager viewPager;
+    DownloadSearchResultsTask downloadSearchResultsTask;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.movieresults, container, false);
 
-        imageView = (ImageView)v.findViewById(R.id.imageView);
-        title = (TextView)v.findViewById(R.id.title);
-        nextButton = (Button)v.findViewById(R.id.nextButton);
-        previousButton = (Button)v.findViewById(R.id.previousButton);
-        viewButton = (Button)v.findViewById(R.id.viewButton);
+        searchResults = new ArrayList<Movie>();
 
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if ((currentlyDisplayedResult + 1) < searchResults.size()) {
-                    ++currentlyDisplayedResult;
-                    imageView.setImageBitmap(searchResults.get(currentlyDisplayedResult).getImage());
-                    title.setText(searchResults.get(currentlyDisplayedResult).getTitle());
-                }
-                else {
-                    currentlyDisplayedResult = 0;
-                    imageView.setImageBitmap(searchResults.get(currentlyDisplayedResult).getImage());
-                    title.setText(searchResults.get(currentlyDisplayedResult).getTitle());
-                }
+        Bundle bundle = this.getArguments();
+        year = bundle.getInt("year");
+        score = bundle.getInt("score");
+
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getParcelableArrayList("searchResults") != null) {
+                searchResults = savedInstanceState.getParcelableArrayList("searchResults");
             }
-        });
+            else {
+                downloadSearchResultsTask = new DownloadSearchResultsTask();
 
-        previousButton.setOnClickListener(new View.OnClickListener() {
+                downloadSearchResultsTask.execute(bundle.getString("url"));
+            }
+        }
+        else {
+            downloadSearchResultsTask = new DownloadSearchResultsTask();
+
+            downloadSearchResultsTask.execute(bundle.getString("url"));
+        }
+
+        resultsNumber = (TextView) v.findViewById(R.id.resultsNumber);
+        title = (TextView) v.findViewById(R.id.title);
+        viewButton = (Button) v.findViewById(R.id.viewButton);
+        viewPager = (ViewPager) v.findViewById(R.id.moviePicture);
+        scrollableImageView = new ScrollableImageView(searchResults, getActivity());
+        viewPager.setAdapter(scrollableImageView);
+
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onClick(View v) {
-                if ((currentlyDisplayedResult - 1) >= 0) {
-                    --currentlyDisplayedResult;
-                    imageView.setImageBitmap(searchResults.get(currentlyDisplayedResult).getImage());
-                    title.setText(searchResults.get(currentlyDisplayedResult).getTitle());
-                }
-                else {
-                    currentlyDisplayedResult = searchResults.size() - 1;
-                    imageView.setImageBitmap(searchResults.get(currentlyDisplayedResult).getImage());
-                    title.setText(searchResults.get(currentlyDisplayedResult).getTitle());
-                }
+            public void onPageScrolled(int i, float v, int i2) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                title.setText(searchResults.get(i).getTitle());
+                resultsNumber.setText("Result " + (i + 1) + "/" + numberOfResults);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
             }
         });
 
         viewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MyActivity)getActivity()).viewMovie(searchResults.get(currentlyDisplayedResult));
+                ((MyActivity) getActivity()).viewMovie(searchResults.get(viewPager.getCurrentItem()));
             }
         });
 
-        searchResults = new ArrayList<Movie>();
-
-        Bundle bundle = this.getArguments();
-
-        new DownloadSearchResultsTask().execute(bundle.getString("url"));
-
         return v;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        downloadSearchResultsTask.cancel(false);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("searchResults", searchResults);
     }
 
     private class DownloadSearchResultsTask extends AsyncTask<String, Integer, Void> {
@@ -134,7 +155,7 @@ public class MovieResultsFragment extends Fragment {
         public void JSONReader(String result) {
             try {
                 JSONObject total = new JSONObject(result);
-                JSONArray movies = total.getJSONArray("movies");
+                final JSONArray movies = total.getJSONArray("movies");
                 for (int i = 0; i < movies.length(); i++) {
                     JSONObject movie = movies.getJSONObject(i);
                     String Title = movie.getString("title");
@@ -163,33 +184,86 @@ public class MovieResultsFragment extends Fragment {
                     }
 
                     Movie aMovie = new Movie(Title, String.valueOf(Year), rating, criticRating, runTime, synopsis, mIcon11, mIcon2);
-
-                    searchResults.add(aMovie);
-
-                    if (searchResults.size() > 1) { //If there are actually other movies to scroll through
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                nextButton.setEnabled(true);
-                                previousButton.setEnabled(true);
-                            }
-                        });
+                    int aMovieYear = Integer.parseInt(aMovie.getYear());
+                    int aMovieScore = Integer.parseInt(aMovie.getCriticScore());
+                    if ((year == -1 || year == aMovieYear) && (score == -1 || score <= aMovieScore)) {
+                        searchResults.add(aMovie);
+                        ++numberOfResults;
                     }
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            imageView.setImageBitmap(searchResults.get(0).getImage());
-                            title.setText(searchResults.get(0).getTitle());
-                            currentlyDisplayedResult = 0;
+                            scrollableImageView.notifyDataSetChanged();
+                            if (searchResults.size() > 0) {
+                                title.setText(searchResults.get(viewPager.getCurrentItem()).getTitle());
+                                resultsNumber.setText("Result " + (viewPager.getCurrentItem() + 1) + "/" + numberOfResults);
+                                viewButton.setEnabled(true);
+                            }
                         }
                     });
-
                 }
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            if (searchResults.size() == 0) {
+                title.setText("No Results Found");
+                resultsNumber.setText("0/0");
+            }
+        }
+    }
+
+    private class ScrollableImageView extends PagerAdapter {
+
+        ArrayList<Movie> movies;
+        Context context;
+
+        ScrollableImageView(ArrayList<Movie> movies, Context context) {
+            this.movies = movies;
+            this.context = context;
+        }
+
+        @Override
+        public int getCount() {
+            return movies.size();
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object o) {
+            return view == ((ImageView)o);
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            ImageView imageView = new ImageView(context);
+
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+            Bitmap bitmap = movies.get(position).getImage();
+            if (bitmap == null) {
+                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.placeholder, options);
+            }
+            imageView.setImageBitmap(bitmap);
+
+            ((ViewPager)container).addView(imageView, 0);
+            return imageView;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            ((ViewPager)container).removeView((ImageView)object);
+        }
+
+        public void setMovies(ArrayList<Movie> movies) {
+            this.movies = movies;
         }
     }
 }
