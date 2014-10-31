@@ -1,12 +1,15 @@
 package com.example.MovieProject;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by Gareth on 16/10/2014.
@@ -22,6 +25,9 @@ public class MovieProfile extends Fragment {
     private TextView synopsis;
 
     private ImageView poster;
+    private Button toWatch;
+    private Button Seen;
+    private boolean whichList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -34,6 +40,8 @@ public class MovieProfile extends Fragment {
         criticScore = (TextView)v.findViewById(R.id.critic);
         runTime = (TextView)v.findViewById(R.id.runtime);
         synopsis = (TextView)v.findViewById(R.id.synopsis);
+        toWatch = (Button) v.findViewById(R.id.watched);
+        Seen = (Button) v.findViewById(R.id.seen);
 
         Bundle bundle = this.getArguments();
         movie = (Movie)bundle.getParcelable("movie");
@@ -45,6 +53,85 @@ public class MovieProfile extends Fragment {
         criticScore.setText(movie.getCriticScore());
         runTime.setText(movie.getRunTime());
         synopsis.setText(movie.getSynopsis());
+
+        if(MyActivity.helper.checkRecordExistsToWatch(movie.getTitle(),movie.getYear()))
+        {
+            toWatch.setText("Delete from Watched");
+        }
+
+        if(MyActivity.helper.checkRecordExistsWatched(movie.getTitle(),movie.getYear()))
+        {
+            Seen.setText("Delete from Seen");
+        }
+
+
+
+        toWatch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(toWatch.getText().equals("Watched"))
+                {
+                    whichList = true;
+                    MyActivity.helper.addMovieToList(movie,whichList);
+                }
+
+
+                if(toWatch.getText().equals("Delete from Watched"))
+                {
+                    Boolean result = MyActivity.helper.deleteRecordFromListToWatch(movie.getTitle());
+                    if(result)
+                    {
+                        Context context = getActivity().getApplicationContext();
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast.makeText(context,"Successful deletion from Watched", duration).show();
+
+                        toWatch.setText("Watched");
+                    }
+                }
+                if(MyActivity.helper.checkRecordExistsToWatch(movie.getTitle(),movie.getYear()))
+                {
+                    toWatch.setText("Delete from Watched");
+                }
+
+            }
+        });
+
+        Seen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(Seen.getText().equals("Seen"))
+                {
+                    whichList = false;
+                    MyActivity.helper.addMovieToList(movie,whichList);
+                }
+                if(Seen.getText().equals("Delete from Seen"))
+                {
+                    Boolean result = MyActivity.helper.deleteRecordFromListWatched(movie.getTitle());
+                    if(result)
+                    {
+                        Context context = getActivity().getApplicationContext();
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast.makeText(context,"Successful deletion from Seen", duration).show();
+
+                        Seen.setText("Seen");
+
+                    }
+                }
+                if(MyActivity.helper.checkRecordExistsWatched(movie.getTitle(),movie.getYear()))
+                {
+                    Seen.setText("Delete from Seen");
+                }
+
+            }
+        });
+
+
+
+
 
         return v;
     }

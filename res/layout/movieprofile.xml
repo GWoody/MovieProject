@@ -82,20 +82,20 @@
                 android:layout_above="@+id/seen"/>
         <Button
                 style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Seen"
                 android:id="@+id/seen"
-                android:layout_marginLeft="62dp" android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"/>
+                android:layout_above="@+id/watched"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="5dp" android:textSize="18dp"/>
         <Button
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Watched"
                 android:id="@+id/watched"
                 android:layout_gravity="right"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="48dp"/>
+                android:layout_alignParentRight="true" android:textSize="18dp"/>
     </RelativeLayout>
 </LinearLayout>

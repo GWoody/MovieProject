@@ -22,21 +22,45 @@ public class MovieListFragment extends Fragment {
     private static ArrayList<Movie> Movies = new ArrayList<Movie>();
     private static MoviesAdapter adapter;
     private ListView MovieList;
-    boolean ifRun = false;
     onListSelected callback;
+    boolean isCreated = false;
+    boolean whichList;
 
-    public static Movie getMovie(int position) {
-        return Movies.get(position);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.movielist, container, false);
 
-        MovieList = (ListView) v.findViewById(R.id.movieListYear);
+        TabHost tabs = (TabHost)v.findViewById(R.id.tabHost);
+        tabs.setup();
 
-        adapter = new MoviesAdapter(getActivity(), Movies);
-        MovieList.setAdapter(adapter);
+        // Calculator
+        TabHost.TabSpec yearList = tabs.newTabSpec("Year");
+        //yearList.setContent(R.id.calculator);
+        yearList.setIndicator("Year");
+        tabs.addTab(yearList);
+
+        // Home
+        //tabs.addTab(tabs.newTabSpec("Alphabetical").setIndicator("Alphabetical"),AlphabeticalFragment.class, null);
+
+
+        if(!isCreated)
+        {
+            MovieList = (ListView) v.findViewById(R.id.movieListYear);
+
+            Bundle bundle = this.getArguments();
+           whichList =  bundle.getBoolean("whichList");
+            Movies = MyActivity.helper.getAllMoviesinList(whichList);
+
+            adapter = new MoviesAdapter(getActivity(), Movies);
+            MovieList.setAdapter(adapter);
+        }
+        else
+        {
+            adapter.notifyDataSetChanged(); // update set
+        }
+
+
 
         MovieList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
